@@ -40,9 +40,12 @@ class ReassignOwnershipPlugin extends Omeka_Plugin_AbstractPlugin
     private function _reassignOwnership($args)
     {
         $newOwnerId = $args['post']['reassign_ownership_id'];
-        $record = $args['record'];
-        $newOwner = $this->_db->getTable('User')->find($newOwnerId);
-        $record->setOwner($newOwner);
+        # when save is called from an unaware omeka plugin/extension
+        if (!empty($newOnerId)) {
+            $record = $args['record'];
+            $newOwner = $this->_db->getTable('User')->find($newOwnerId);
+            $record->setOwner($newOwner);
+        }
     }
     
     private function _echoPanel($args)
